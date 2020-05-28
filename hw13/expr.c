@@ -1,0 +1,56 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "expr.h"
+#include "string_util.h"
+
+// constructor for variable expression
+EXPR *expr_create_var(char *s) {
+   EXPR *e = (EXPR *)malloc(sizeof(EXPR));
+   e->expr_type = VAR_EXPR;
+   e->s = str_dup(s);
+   return e;
+}
+
+// constructor for num expression
+EXPR *expr_create_num(int i) {
+   EXPR *e = (EXPR *)malloc(sizeof(EXPR));
+   e->expr_type = NUM_EXPR;
+   e->i = i;
+   return e;
+}
+
+// constructor for function call expression
+EXPR *expr_create_fcall(char *fname, EXPR *expr) {
+   EXPR *e = malloc(sizeof(EXPR));
+   e->expr_type = FCALL_EXPR;
+   e->s = str_dup(fname);
+   e->expr = expr;
+   return e;
+}
+
+// print this expression
+void expr_print(EXPR *expr) {
+
+   // YOUR CODE HERE
+  switch(expr->expr_type){
+    case VAR_EXPR:
+      printf("%s", expr->s);
+      break;
+    case NUM_EXPR:
+      printf("%d", expr->i);
+      break;
+    case FCALL_EXPR:
+      printf("(");
+      printf("%s", expr->s);
+      printf(")");
+      break;
+  }
+
+}
+
+
+// expr ::= ID(expr) | ID | NUM
+
+// expr ::= ID expr1 | NUM
+// expr1 ::= (expr) | ""
